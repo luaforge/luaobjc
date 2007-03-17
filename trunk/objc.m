@@ -1,12 +1,11 @@
 /*
- * objc.m - allow objective-c bindings to be loaded as a lua 5.1-style module
- *
- * Author: Sam Roberts
- * Contact: sroberts@uniserve.com
- *
- * This file is public domain. It is provided without any warranty whatsoever,
- * and may be modified or used without attribution.
- */
+objc.m - allow objective-c bindings to be loaded as a module
+
+Author: Sam Roberts
+Contact: sroberts@uniserve.com
+Copyright: see file COPYRIGHT
+
+*/
 
 #include "LuaObjCBridge.h"
 
@@ -16,7 +15,7 @@
 // will cause a fatal exception if the library contained obj-c code.
 //
 // To prevent this, we search the registry for the key that matches the .so that
-// we were loaded from. Unfotunately, the only thing we know about the key is that
+// we were loaded from. Unfortunately, the only thing we know about the key is that
 // it starts with "LOADLIB: " and ends with <modulename>, and maps to a userdata.
 //
 // If we find the userdata, we clear its metatable, since the only purpose of

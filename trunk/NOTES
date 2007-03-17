@@ -1,4 +1,24 @@
 NOTES
+	: luaobjc is derived from the LuaObjCBridge written by Tom McClean and distributed from
+	: http://www.pixelballistics.com. He did the heavy lifting in writing the core code to call
+	: objective-c methods from lua, but no longer has the time to maintain the bridge.  I don't have
+	: the time to maintain it either :-), but I am using it and have been bugfixing, and if the code
+	: is up on luaforge, maybe others will be able to help out.
+	
+	Done
+		x removed LuaObjcBinding-Prefix.h, appears to do nothing
+		x usable as a loadable module (objc.m)
+		x implement objc.autoreleasepool() (most methods in Foundation can't be called without a pool)
+		x quick hack to allow const strings as args, as in [NSString stringWithCString:cstr]
+		x gc.lua example, showing unbounded memory usage... :-(
+		x ab.lua example, showing loading of AddressBook framework
+
+	Todo
+		_ use full userdata instead of tables for id
+		_ define metatables specific to NSArray/NSDictionary, NSNumber, NSString, etc.
+		_ allow table arguments to objc method calls
+		_ cache results from NSSelectorFromString() if benchmarks show it helps performance
+
 	Data structure
 		objc is the module table
 			; objc = {
@@ -23,10 +43,5 @@ NOTES
 				_ no garbage collection on this table, it is a memory leak!
 					: not sure how this could be fixed
 			: Why is all this done, anyhow, why not attach appropriate metatables to userdata?
-	Todo
-		_ use full userdata instead of tables for id
-		_ define metatables specific to NSArray/NSDictionary, NSNumber, NSString, etc.
-		_ allow table arguments to objc method calls
-		_ We could cache results from NSSelectorFromString() for performance
 
 vim:ft=vo_base:ts=2:sw=2:
