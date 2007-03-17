@@ -1,0 +1,32 @@
+NOTES
+	Data structure
+		objc is the module table
+			; objc = {
+			;   class = lua_objc_lookup_class
+			;   __lua_objc_ids = {
+			;     <light userdara of value ptr> = <light userdata of id>
+			;   }
+		id (an obj-c object) is represented as a table:
+			; id = {}
+			; id->metatable = {
+			;   __index = lua_objc_method_lookup
+			;   __gc    = lua_objc_release
+			;   __lua_objc_id = <light userdata of id>
+			; }
+			_ FIXME id uses {}, not userdata, so __gc is never called!
+		string, number, and boolean all have the same metatable as an id, minus the __lua_objc_id
+			: its presence is used as a flag, if there is a metatable for the value, its "pointer"
+			: is looked up in objc.__lua_objc_ids, to find an id for this value
+			_ FIXME this doesn't work,
+				_ id is randomly lost
+					: NSStrings that compare equal will have the same lua pointer
+				_ no garbage collection on this table, it is a memory leak!
+					: not sure how this could be fixed
+			: Why is all this done, anyhow, why not attach appropriate metatables to userdata?
+	Todo
+		_ use full userdata instead of tables for id
+		_ define metatables specific to NSArray/NSDictionary, NSNumber, NSString, etc.
+		_ allow table arguments to objc method calls
+		_ We could cache results from NSSelectorFromString() for performance
+
+vim:ft=vo_base:ts=2:sw=2:
